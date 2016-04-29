@@ -4,7 +4,7 @@ var gulp              = require('gulp'),
     browserify        = require('browserify'),
     babel             = require('babel-core'),
     babelify          = require('babelify'),
-    // bower             = require('main-bower-files'),
+    bower             = require('main-bower-files'),
     buffer            = require('vinyl-buffer'),
     filter            = require('gulp-filter'),
     source            = require('vinyl-source-stream'),
@@ -21,8 +21,8 @@ gulp.task('js', function() {
     .pipe(gulp.dest(paths.dist.js).on('error', errorHandler))
     .on('error', errorHandler);
 
-  // gulp.src(bower())
-  //   .pipe(filter('*.{js,map}'))
-  //   .pipe(gulp.dest(paths.dist.js+'/vendor'))
-  //   .on('error', errorHandler);
+  gulp.src(bower())
+    .pipe(filter('*.{js,map}'))
+    .pipe(gulp.dest(paths.dist.js+'/vendor'))
+    .on('error', errorHandler);
 });

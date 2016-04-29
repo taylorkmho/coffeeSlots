@@ -1,0 +1,22 @@
+{
+  "name": "coffeeSlots",
+  "description": "A slot machine UI that gets you that caffeine fix.",
+  "main": "index.html",
+  "authors": [
+    "Taylor Ho"
+  ],
+  "license": "MIT",
+  "homepage": "https://github.com/taylorkmho/coffeeSlots",
+  "moduleType": [],
+  "private": true,
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "bower_components",
+    "test",
+    "tests"
+  ],
+  "dependencies": {
+    "normalize-css": "normalize.css#^4.1.1"
+  }
+}
