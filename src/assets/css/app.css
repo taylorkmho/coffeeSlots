@@ -3,3 +3,6 @@
 @import '_settings.css';
 @import '_structure.css';
 @import '_layout.css';
+
+@import 'sections/_copy.css';
+@import 'sections/_slots.css';

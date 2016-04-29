@@ -1,0 +1,5 @@
+.slots {
+  &__slot {
+    lost-column: 1/3 3;
+  }
+}
