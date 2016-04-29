@@ -17,5 +17,9 @@
       font-size: 1rem;
       letter-spacing: .1rem;
     }
+    &:first-of-type,
+    &:last-of-type {
+      margin: $column-gutter 0;
+    }
   }
 }
