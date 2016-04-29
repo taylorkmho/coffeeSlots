@@ -62,6 +62,7 @@ export default class SlotMachine {
           y: (-3 * this.slotOptionHeight) + 'px',
           ease: 'easeIn',
           clearProps: 'y',
+          delay: slotIndex,
           onComplete: function() {
             console.log('🔥🔥 onComplete - finish cycle 🔥🔥')
             if (slotEl.style.border == ''){
@@ -73,14 +74,15 @@ export default class SlotMachine {
         }
       ));
       timeline.add(
-        TweenLite.to(slotsContainer, .125, {
+        TweenMax.to(slotsContainer, .125, {
           y: (-3 * this.slotOptionHeight) + 'px',
-          ease: 'easeNone',
-          clearProps: 'y'
+          ease: 'none',
+          clearProps: 'y',
+          repeat: 20
         }
       ));
       timeline.add(
-        TweenLite.to(slotsContainer, .25, {
+        TweenLite.to(slotsContainer, .5 , {
           y: (-randomNum * this.slotOptionHeight) + 'px',
           ease: 'easeOut'
         }
