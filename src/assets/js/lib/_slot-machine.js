@@ -51,15 +51,40 @@ export default class SlotMachine {
   }
   spinSlots() {
     this.slots.forEach((slotEl,slotIndex)=>{
-      let currentOption       = parseInt(slotEl.getAttribute('data-current'));
-      let stepsMoved          = 3 - currentOption;
+      let stepsMoved          = 3 - parseInt(slotEl.getAttribute('data-current'));
+      let randomNum           = randomBetween(0,2);
+      let slotsContainer      = slotEl.querySelector('.slots__container');
       let timeline            = new TimelineLite();
-      console.log(stepsMoved)
+
+      slotEl.setAttribute('data-current', randomNum);
       timeline.add(
-        TweenLite.to(slotEl.querySelector('.slots__container'), .125 * stepsMoved, {
-          y: (-3 * this.slotOptionHeight) + 'px'
+        TweenLite.to(slotsContainer, .06125, {
+          y: (-3 * this.slotOptionHeight) + 'px',
+          ease: 'easeIn',
+          clearProps: 'y',
+          onComplete: function() {
+            console.log('🔥🔥 onComplete - finish cycle 🔥🔥')
+            if (slotEl.style.border == ''){
+              slotEl.style.border = '2px solid red';
+            } else {
+              slotEl.style.border = '';
+            }
+          }
         }
       ));
-    });
+      timeline.add(
+        TweenLite.to(slotsContainer, .125, {
+          y: (-3 * this.slotOptionHeight) + 'px',
+          ease: 'easeNone',
+          clearProps: 'y'
+        }
+      ));
+      timeline.add(
+        TweenLite.to(slotsContainer, .25, {
+          y: (-randomNum * this.slotOptionHeight) + 'px',
+          ease: 'easeOut'
+        }
+      ));
+    })
   }
 }
