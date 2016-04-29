@@ -1,0 +1,34 @@
+*, *:before, *:after {
+  box-sizing: border-box;
+}
+
+html,
+body {
+  font-size: 90%;
+}
+
+@media screen and (min-width: $row-width) {
+  html,
+  body {
+    font-size: 100%;
+  }
+}
+
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+  font-family: $header-font-family;
+  font-weight: 600;
+  letter-spacing: .05rem;
+}
+
+img {
+  max-width: 100%;
+  height: auto;
+  -ms-interpolation-mode: bicubic;
+  display: inline-block;
+  vertical-align: middle;
+}
