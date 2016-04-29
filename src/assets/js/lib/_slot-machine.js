@@ -14,6 +14,7 @@ export default class SlotMachine {
         create container el
       */
       let slotContainer = document.createElement('div');
+      addClass(slotContainer, 'slots__container');
       slotEl.appendChild(slotContainer);
       /*
         (2x) iterate over caffeineData
