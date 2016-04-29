@@ -1,5 +1,8 @@
 .copy {
   &__title {
+    margin-top: 0;
+    letter-spacing: .2rem;
+    line-height: 1;
     strong {
       display: block;
       color: $c-primary;
