@@ -4,7 +4,7 @@
 $column-gutter:          1rem;
 @lost gutter $column-gutter;
 
-$row-width:              60rem;
+$row-width:              42rem;
 
 $body-font-family:       "Montserrat", "Helvetica Neue", Helvetica, sans-serif;
 $header-font-family:     "Six Caps", sans-serif;
