@@ -1,4 +1,24 @@
 extends layouts/_application
 
 block content
-  p Hello World
+  aside
+    img(src="//placehold.it/300x400")
+  main
+    .copy
+      h1.copy__title The <strong>Coffee-o-Matic</strong>
+      p.copy__description Budget cuts means less coffee. See if you&rsquo;re one of the lucky workers today. Please limit to two pulls. (The Boss is watching.)
+    .slots
+      .slots__slot
+        .slots__option Coffee maker
+        .slots__option Teapot
+        .slots__option Espresso machine
+      .slots__slot
+        .slots__option Coffee filter
+        .slots__option Tea strainer
+        .slots__option Espresso tamper
+      .slots__slot
+        .slots__option Coffee grounds
+        .slots__option Loose tea
+        .slots__option Espresso beans
+      .slots__action
+        button.btn SPIN

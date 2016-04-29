@@ -1,0 +1,10 @@
+body {
+  lost-center: $row-width;
+  lost-utility: clearfix;
+  > aside {
+    lost-column: 1/3 2;
+  }
+  > main {
+    lost-column: 2/3 2;
+  }
+}
