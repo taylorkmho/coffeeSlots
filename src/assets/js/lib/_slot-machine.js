@@ -31,11 +31,16 @@ export default class SlotMachine {
       /*
         set container el to random slotOption
       */
-      let randomNum        = randomBetween(0,5);
-      let heightSlotOption = slotContainer.offsetHeight / slotContainer.childElementCount;
-      TweenMax.to(slotContainer, .25 * randomNum, {
-        y: '-' + heightSlotOption * randomNum + 'px'
-      })
+      let randomNum         = randomBetween(0,2);
+      this.slotOptionHeight = slotContainer.offsetHeight / slotContainer.childElementCount;
+
+      slotEl.setAttribute('data-current', randomNum);
+      if (randomNum !== 0) {
+        TweenMax.to(slotContainer, .75 * randomNum, {
+          y: '-' + this.slotOptionHeight * randomNum + 'px'
+        })
+      }
+    });
     });
   }
 }
