@@ -7,6 +7,7 @@ export default class SlotMachine {
     this.slots = Array.from(this.el.querySelectorAll('.slots__slot'));
 
     this.initialize();
+    this.addClickListeners();
   }
   initialize() {
     this.slots.forEach((slotEl,slotIndex)=>{
@@ -41,6 +42,24 @@ export default class SlotMachine {
         })
       }
     });
+  }
+  addClickListeners() {
+    let spinButton = this.el.querySelector('[data-action="spin"]');
+    spinButton.addEventListener('click', ()=>{
+      this.spinSlots();
+    }, false);
+  }
+  spinSlots() {
+    this.slots.forEach((slotEl,slotIndex)=>{
+      let currentOption       = parseInt(slotEl.getAttribute('data-current'));
+      let stepsMoved          = 3 - currentOption;
+      let timeline            = new TimelineLite();
+      console.log(stepsMoved)
+      timeline.add(
+        TweenLite.to(slotEl.querySelector('.slots__container'), .125 * stepsMoved, {
+          y: (-3 * this.slotOptionHeight) + 'px'
+        }
+      ));
     });
   }
 }
