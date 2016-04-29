@@ -1,6 +1,6 @@
 require('es6-shim');
-import { addClass, removeClass, hasClass } from "./lib/_helpers";
 require('./lib/_nodelist-shim');
+import SlotMachine from './lib/_slot-machine';
 
 let caffeineData = [
   {
@@ -17,17 +17,4 @@ let caffeineData = [
   }
 ]
 
-/*
-  for each slot element (from slots array)
-    iterate over caffeineData
-      append div containing data to slot element
-*/
-let slots       = Array.from(document.querySelectorAll('.slots__slot'));
-slots.forEach((slotEl,slotIndex)=>{
-  caffeineData.forEach((data)=>{
-    let slotOption = document.createElement('div');
-    addClass(slotOption, 'slots__option');
-    slotOption.innerHTML = data.type + ' <span>' + data.components[slotIndex] + '</span>';
-    slotEl.appendChild(slotOption);
-  })
-})
+let slotMachine = new SlotMachine('.slots', caffeineData);
