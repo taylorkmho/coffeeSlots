@@ -1,34 +1,40 @@
-import { addClass, removeClass, hasClass } from './_helpers';
+import { addClass, removeClass, hasClass, randomBetween } from './_helpers';
 
 export default class SlotMachine {
   constructor(selector, data) {
-    this.el = document.querySelector(selector);
-    this.data = data;
+    this.el    = document.querySelector(selector);
+    this.data  = data;
+    this.slots = Array.from(this.el.querySelectorAll('.slots__slot'));
 
     this.initialize();
   }
-  populateData() {
-    /*
-      for each slot element (from slots array)
-        iterate over caffeineData
-          append div containing data to slot element
-    */
-    let slots       = Array.from(this.el.querySelectorAll('.slots__slot'));
-    slots.forEach((slotEl,slotIndex)=>{
-      this.data.forEach((data)=>{
-        let slotOption = document.createElement('div');
-        addClass(slotOption, 'slots__option');
-        slotOption.innerHTML = data.type + ' <span>' + data.components[slotIndex] + '</span>';
-        slotEl.appendChild(slotOption);
+  initialize() {
+    this.slots.forEach((slotEl,slotIndex)=>{
+      /*
+        create container el
+      */
+      let slotContainer = document.createElement('div');
+      slotEl.appendChild(slotContainer);
+      /*
+        (2x) iterate over caffeineData
+          append data to container el
+      */
+      for (let i=0; i<2; i++) {
+        this.data.forEach((data)=>{
+          let slotOption = document.createElement('div');
+          addClass(slotOption, 'slots__option');
+          slotOption.innerHTML = data.type + ' <span>' + data.components[slotIndex] + '</span>';
+          slotContainer.appendChild(slotOption);
+        })
+      }
+      /*
+        set container el to random slotOption
+      */
+      let randomNum        = randomBetween(0,5);
+      let heightSlotOption = slotContainer.offsetHeight / slotContainer.childElementCount;
+      TweenMax.to(slotContainer, .25 * randomNum, {
+        y: '-' + heightSlotOption * randomNum + 'px'
       })
     });
-  }
-  initialize() {
-    /*
-      populate the data twice for looping animation
-    */
-    const repeatCount = 2;
-    for (let i=0; i<repeatCount; i++)
-      this.populateData();
   }
 }

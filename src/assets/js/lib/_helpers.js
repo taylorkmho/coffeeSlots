@@ -21,3 +21,7 @@ export function removeClass(el, className) {
 export function hasClass(el, className) {
   return el.className && new RegExp("(\\s|^)" + className + "(\\s|$)").test(el.className);
 }
+
+export function randomBetween(min, max) {
+  return Math.floor(Math.random() * (max - min + 1)) + min;
+}
