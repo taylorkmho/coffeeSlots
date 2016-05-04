@@ -80,7 +80,7 @@ export default class SlotMachine {
       slotEl.setAttribute('data-current-index', resultNum);
 
       timeline.add(
-        TweenLite.to(slotsContainer, .06125, {
+        TweenLite.to(slotsContainer, .125, {
           y: (-3 * this.slotOptionHeight) + 'px',
           ease: 'easeIn',
           clearProps: 'y',
