@@ -17,21 +17,20 @@ export default class SlotMachine {
       addClass(slotContainer, 'slots__container');
       slotEl.appendChild(slotContainer);
       /*
-        (2x) iterate over caffeineData
+        iterate over caffeineData
           append data to container el
       */
-      for (let i=0; i<2; i++) {
-        this.data.forEach((data)=>{
-          let slotOption = document.createElement('div');
-          addClass(slotOption, 'slots__option');
-          slotOption.innerHTML = data.type + ' <span>' + data.components[slotIndex] + '</span>';
-          slotContainer.appendChild(slotOption);
-        })
-      }
+      this.data.forEach((data, index)=>{
+        let slotOption = document.createElement('div');
+        addClass(slotOption, 'slots__option');
+        slotOption.innerHTML = data.type + ' <span>' + data.components[slotIndex] + '</span>';
+        slotContainer.appendChild(slotOption);
+      })
       /*
-        set container el to random slotOption
+        duplicate the first element for repeating animation
       */
-      let randomNum         = randomBetween(0,2);
+      let firstEl = slotContainer.querySelector('.slots__option').cloneNode(true);
+      slotContainer.appendChild(firstEl);
       this.slotOptionHeight = slotContainer.offsetHeight / slotContainer.childElementCount;
 
       slotEl.setAttribute('data-current-index', randomNum);
