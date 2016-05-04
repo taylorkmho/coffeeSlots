@@ -23,7 +23,7 @@ export default class SlotMachine {
   initialize() {
     this.slots.forEach((slotEl,slotIndex)=>{
       /*
-        create container el
+        create slot container el
       */
       let slotContainer = document.createElement('div');
       addClass(slotContainer, 'slots__container');
@@ -46,7 +46,7 @@ export default class SlotMachine {
       let randomNum         = randomBetween(0,2);
       this.slotOptionHeight = slotContainer.offsetHeight / slotContainer.childElementCount;
 
-      slotEl.setAttribute('data-current', randomNum);
+      slotEl.setAttribute('data-current-index', randomNum);
       if (randomNum !== 0) {
         TweenMax.to(slotContainer, .75 * randomNum, {
           y: '-' + this.slotOptionHeight * randomNum + 'px'
@@ -67,7 +67,7 @@ export default class SlotMachine {
       let slotsContainer      = slotEl.querySelector('.slots__container');
       let timeline            = new TimelineLite();
 
-      slotEl.setAttribute('data-current', randomNum);
+      slotEl.setAttribute('data-current-index', randomNum);
       timeline.add(
         TweenLite.to(slotsContainer, .06125, {
           y: (-3 * this.slotOptionHeight) + 'px',
