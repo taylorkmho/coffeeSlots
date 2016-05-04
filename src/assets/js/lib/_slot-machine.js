@@ -10,11 +10,9 @@ export default class SlotMachine {
       this.spinSlots();
     }
     this.addSpinListener = () => {
-      console.log('adding spin button listener');
       this.el.querySelector('[data-action="spin"]').addEventListener('click', this.spinHandler, false);
     }
     this.removeSpinListener = () => {
-      console.log('removing spin button listener');
       this.el.querySelector('[data-action="spin"]').removeEventListener('click', this.spinHandler, false);
     }
 
@@ -62,12 +60,20 @@ export default class SlotMachine {
   spinSlots() {
     this.removeSpinListener();
 
+    console.log('🎰🎰🎰 slot spin 🎰🎰🎰');
+    let slotMatchArray = [null, null, null];
+
     this.slots.forEach((slotEl,slotIndex)=>{
-      let randomNum           = randomBetween(0,2);
+      let newOptionNum        = randomBetween(0,2);
       let slotsContainer      = slotEl.querySelector('.slots__container');
+      let thisSlotNum         = parseInt(slotEl.getAttribute('data-slot'));
+      let prevSlotEl = this.el.querySelectorAll('.slots__slot')[thisSlotNum-1];
+      let prevElNum = prevSlotEl ? parseInt(prevSlotEl.getAttribute('data-current-index')) : null;
+      let matchPrev = newOptionNum === prevElNum;
+
       let timeline            = new TimelineLite();
 
-      slotEl.setAttribute('data-current-index', randomNum);
+      slotEl.setAttribute('data-current-index', newOptionNum);
       timeline.add(
         TweenLite.to(slotsContainer, .06125, {
           y: (-3 * this.slotOptionHeight) + 'px',
@@ -85,13 +91,27 @@ export default class SlotMachine {
         }
       ));
       timeline.add(
-        TweenLite.to(slotsContainer, .5 , {
-          y: (-randomNum * this.slotOptionHeight) + 'px',
+        TweenLite.to(slotsContainer, .5, {
+          y: (-newOptionNum * this.slotOptionHeight) + 'px',
           ease: 'easeOut',
           onComplete: () => {
-            if (parseInt(slotEl.getAttribute('data-slot')) === 2) {
+
+            console.log('🎰 ' + thisSlotNum);
+            if (thisSlotNum == 0) {
+              slotMatchArray[thisSlotNum] = true;
+            } else {
+              if (matchPrev) {
+                slotMatchArray[thisSlotNum] = true;
+              } else {
+                slotMatchArray[thisSlotNum] = false;
+              }
+            }
+            console.log(slotMatchArray);
+
+            if (thisSlotNum === 2) {
               this.addSpinListener();
             }
+
           }
         }
       ));
