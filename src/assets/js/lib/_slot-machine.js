@@ -69,8 +69,7 @@ export default class SlotMachine {
     console.log('🎰🎰🎰 slot spin 🎰🎰🎰');
 
     this.slots.forEach((slotEl,slotIndex)=>{
-      // let resultNum           = randomBetween(0, this.data.length-1);
-      let resultNum           = 2;
+      let resultNum           = randomBetween(0, this.data.length-1);
       let slotsContainer      = slotEl.querySelector('.slots__container');
       let timelineSlot        = new TimelineLite();
 
