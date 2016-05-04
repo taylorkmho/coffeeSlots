@@ -5,6 +5,7 @@ export default class SlotMachine {
     this.el             = document.querySelector(selector);
     this.data           = data;
     this.slots          = Array.from(this.el.querySelectorAll('.slots__slot'));
+    this.graphic        = new SlotGraphic('.slot-machine');
     this.currentResults = [];
 
     this.initialize();
@@ -68,55 +69,57 @@ export default class SlotMachine {
     console.log('🎰🎰🎰 slot spin 🎰🎰🎰');
 
     this.slots.forEach((slotEl,slotIndex)=>{
-      let resultNum           = randomBetween(0, this.data.length-1);
+      // let resultNum           = randomBetween(0, this.data.length-1);
+      let resultNum           = 2;
       let slotsContainer      = slotEl.querySelector('.slots__container');
+      let timelineSlot        = new TimelineLite();
 
-      let successHandler      = () => {
-        console.log('all elements match');
-      }
-      let timeline            = new TimelineLite();
-
-      this.currentResults[slotIndex] = resultNum;
-      slotEl.setAttribute('data-current-index', resultNum);
-
-      timeline.add(
-        TweenLite.to(slotsContainer, .125, {
+      let animStart           = TweenLite.to(slotsContainer, .125, {
           y: (-3 * this.slotOptionHeight) + 'px',
           ease: 'easeIn',
           clearProps: 'y',
           delay: slotIndex
-        }
-      ));
-      timeline.add(
-        TweenMax.to(slotsContainer, .125, {
+      });
+      let animMid             = TweenMax.to(slotsContainer, .125, {
           y: (-3 * this.slotOptionHeight) + 'px',
           ease: 'none',
           clearProps: 'y',
           repeat: 20
-        }
-      ));
-      timeline.add(
-        TweenLite.to(slotsContainer, .5, {
+      });
+      let animFinish          = TweenLite.to(slotsContainer, .5, {
           y: (resultNum > 0) ? (-resultNum * this.slotOptionHeight) + 'px' : (-this.data.length * this.slotOptionHeight) + 'px',
           ease: 'easeOut',
           onComplete: () => {
-
             if (slotIndex === 2) {
               this.addSpinListener();
               if (this.currentResults[0] == this.currentResults[1] && this.currentResults[1] == this.currentResults[2]) {
-                successHandler();
+                this.graphic.win();
               }
             }
-
-            // if this is the first slot
-              // add active class to this slot
-            // else
-              // if each prior result has matched && this slot matches previous result
-                // add active class to this slot
-
           }
-        }
-      ));
+      })
+
+      this.currentResults[slotIndex] = resultNum;
+      slotEl.setAttribute('data-current-index', resultNum);
+
+      timelineSlot
+        .add(animStart)
+        .add(animMid)
+        .add(animFinish);
     })
+  }
+}
+
+class SlotGraphic {
+  constructor(selector) {
+    this.el = document.querySelector(selector);
+  }
+  win() {
+    let timelineGraphic = new TimelineLite();
+    let animPour        = TweenLite.to(this.el, .5, {
+        y: '40px'
+    });
+    timelineGraphic
+      .add(animPour)
   }
 }
