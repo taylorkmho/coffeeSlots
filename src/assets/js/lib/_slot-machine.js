@@ -115,11 +115,63 @@ class SlotGraphic {
     this.el = document.querySelector(selector);
   }
   win() {
+    let shakeMachine    = TweenMax.fromTo(this.el, .0625,
+      {
+        x: '-1px'
+      },
+      {
+        x: '1px',
+        repeat: 70
+      }
+    )
+
     let timelineGraphic = new TimelineLite();
-    let animPour        = TweenLite.to(this.el, .5, {
-        y: '40px'
-    });
+    let flowBase        = this.el.querySelector('.slot-machine__flow rect');
+    let animPourIn      = TweenLite.fromTo(flowBase, .5,
+      {
+        opacity: 0,
+        height: 0,
+        y: '0%'
+      },
+      {
+        opacity: .5,
+        height: flowBase.getAttribute('height'),
+        y: '0%'
+      }
+    );
+    let animPourOut      = TweenLite.to(flowBase, 1.5,
+      {
+        opacity: 0,
+        y: flowBase.getAttribute('height'),
+        height: 0,
+        clearProps: 'opacity, y, height'
+      }
+    );
+
+    let flowBubbles     = this.el.querySelectorAll('.slot-machine__flow circle');
+    let animBubbleIn    = TweenMax.staggerFromTo(flowBubbles, 1,
+      {
+        opacity: 0,
+        y: '0%'
+      },
+      {
+        opacity: 1,
+        y: '100%'
+      },
+      .125
+    );
+    let animBubbleOut   = TweenLite.to(flowBubbles, 1,
+      {
+        opacity: 0,
+        y: '200%',
+        clearProps: 'opacity, y'
+      }
+    );
+
     timelineGraphic
-      .add(animPour)
+      .add(animPourIn)
+      .add(animBubbleIn)
+      .add(animBubbleOut)
+      .add(animPourOut);
   }
 }

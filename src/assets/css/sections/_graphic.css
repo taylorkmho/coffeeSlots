@@ -14,3 +14,13 @@
     width: 100%;
   }
 }
+
+.slot-machine {
+  &__flow {
+    rect,
+    g,
+    > circle {
+      opacity: 0;
+    }
+  }
+}
