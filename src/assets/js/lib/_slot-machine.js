@@ -2,9 +2,10 @@ import { addClass, removeClass, hasClass, randomBetween } from './_helpers';
 
 export default class SlotMachine {
   constructor(selector, data) {
-    this.el    = document.querySelector(selector);
-    this.data  = data;
-    this.slots = Array.from(this.el.querySelectorAll('.slots__slot'));
+    this.el             = document.querySelector(selector);
+    this.data           = data;
+    this.slots          = Array.from(this.el.querySelectorAll('.slots__slot'));
+    this.currentResults = [];
 
     this.initialize();
   }
@@ -38,6 +39,7 @@ export default class SlotMachine {
       this.slotOptionHeight = slotContainer.offsetHeight / slotContainer.childElementCount;
 
       slotEl.setAttribute('data-current-index', initNum);
+      this.currentResults[slotIndex] = initNum;
       TweenMax.to(slotContainer, 1, {
         y: (initNum > 0) ? (-initNum * this.slotOptionHeight) + 'px' : (-this.data.length * this.slotOptionHeight) + 'px',
         delay: slotIndex * .125
@@ -64,19 +66,19 @@ export default class SlotMachine {
     this.removeSpinListener();
 
     console.log('🎰🎰🎰 slot spin 🎰🎰🎰');
-    let slotMatchArray = [null, null, null];
 
     this.slots.forEach((slotEl,slotIndex)=>{
-      let newOptionNum        = randomBetween(0,2);
+      let resultNum           = randomBetween(0, this.data.length-1);
       let slotsContainer      = slotEl.querySelector('.slots__container');
-      let thisSlotNum         = parseInt(slotEl.getAttribute('data-slot'));
-      let prevSlotEl = this.el.querySelectorAll('.slots__slot')[thisSlotNum-1];
-      let prevElNum = prevSlotEl ? parseInt(prevSlotEl.getAttribute('data-current-index')) : null;
-      let matchPrev = newOptionNum === prevElNum;
 
+      let successHandler      = () => {
+        console.log('all elements match');
+      }
       let timeline            = new TimelineLite();
 
-      slotEl.setAttribute('data-current-index', newOptionNum);
+      this.currentResults[slotIndex] = resultNum;
+      slotEl.setAttribute('data-current-index', resultNum);
+
       timeline.add(
         TweenLite.to(slotsContainer, .06125, {
           y: (-3 * this.slotOptionHeight) + 'px',
@@ -95,25 +97,22 @@ export default class SlotMachine {
       ));
       timeline.add(
         TweenLite.to(slotsContainer, .5, {
-          y: (-newOptionNum * this.slotOptionHeight) + 'px',
+          y: (resultNum > 0) ? (-resultNum * this.slotOptionHeight) + 'px' : (-this.data.length * this.slotOptionHeight) + 'px',
           ease: 'easeOut',
           onComplete: () => {
 
-            console.log('🎰 ' + thisSlotNum);
-            if (thisSlotNum == 0) {
-              slotMatchArray[thisSlotNum] = true;
-            } else {
-              if (matchPrev) {
-                slotMatchArray[thisSlotNum] = true;
-              } else {
-                slotMatchArray[thisSlotNum] = false;
+            if (slotIndex === 2) {
+              this.addSpinListener();
+              if (this.currentResults[0] == this.currentResults[1] && this.currentResults[1] == this.currentResults[2]) {
+                successHandler();
               }
             }
-            console.log(slotMatchArray);
 
-            if (thisSlotNum === 2) {
-              this.addSpinListener();
-            }
+            // if this is the first slot
+              // add active class to this slot
+            // else
+              // if each prior result has matched && this slot matches previous result
+                // add active class to this slot
 
           }
         }
