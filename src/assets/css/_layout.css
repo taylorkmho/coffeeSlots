@@ -3,15 +3,16 @@ body {
   height: 100vh;
   display: flex;
   align-items: center;
+  overflow: hidden;
   > section {
     lost-center: $row-width;
     display: flex;
     align-items: center;
     > aside {
-      lost-column: 1/3 2;
+      lost-column: 1/3 2 2rem;
     }
     > main {
-      lost-column: 2/3 2;
+      lost-column: 2/3 2 2rem;
     }
   }
 }

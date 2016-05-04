@@ -1,0 +1,16 @@
+.graphic {
+  position: relative;
+  &__machine {
+    position: relative;
+    z-index: 410;
+  }
+  &__drip {
+    position: absolute;
+    left: 0;
+    bottom: 5px;
+    z-index: 400;
+    transform: translateY(100%);
+    padding: 0 1rem;
+    width: 100%;
+  }
+}
