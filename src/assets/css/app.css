@@ -6,3 +6,5 @@
 
 @import 'sections/_copy.css';
 @import 'sections/_slots.css';
+
+@import 'components/_buttons.css';

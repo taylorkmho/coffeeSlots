@@ -1,0 +1,19 @@
+.btn {
+  outline: none;
+  &--spin {
+    background: $c-primary;
+    color: color($c-primary blend(yellow 15%) tint(40%) saturation(100%));
+    letter-spacing: .25rem;
+    font-size: 1.5rem;
+    border-radius: 8px;
+    border: none;
+    padding: calc($column-gutter/4) calc($column-gutter);
+    cursor: pointer;
+    &:hover {
+      background: color($c-primary tint(10%));
+    }
+    &:active {
+      background: color($c-primary shade(10%));
+    }
+  }
+}

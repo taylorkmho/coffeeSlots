@@ -6,8 +6,19 @@ export default class SlotMachine {
     this.data  = data;
     this.slots = Array.from(this.el.querySelectorAll('.slots__slot'));
 
+    this.spinHandler = () => {
+      this.spinSlots();
+    }
+    this.addSpinListener = () => {
+      console.log('adding spin button listener');
+      this.el.querySelector('[data-action="spin"]').addEventListener('click', this.spinHandler, false);
+    }
+    this.removeSpinListener = () => {
+      console.log('removing spin button listener');
+      this.el.querySelector('[data-action="spin"]').removeEventListener('click', this.spinHandler, false);
+    }
+
     this.initialize();
-    this.addClickListeners();
   }
   initialize() {
     this.slots.forEach((slotEl,slotIndex)=>{
@@ -42,16 +53,16 @@ export default class SlotMachine {
         })
       }
     });
-  }
-  addClickListeners() {
-    let spinButton = this.el.querySelector('[data-action="spin"]');
-    spinButton.addEventListener('click', ()=>{
-      this.spinSlots();
-    }, false);
+
+    /*
+      add click listener to spin button
+    */
+    this.addSpinListener();
   }
   spinSlots() {
+    this.removeSpinListener();
+
     this.slots.forEach((slotEl,slotIndex)=>{
-      let stepsMoved          = 3 - parseInt(slotEl.getAttribute('data-current'));
       let randomNum           = randomBetween(0,2);
       let slotsContainer      = slotEl.querySelector('.slots__container');
       let timeline            = new TimelineLite();
@@ -62,15 +73,7 @@ export default class SlotMachine {
           y: (-3 * this.slotOptionHeight) + 'px',
           ease: 'easeIn',
           clearProps: 'y',
-          delay: slotIndex,
-          onComplete: function() {
-            console.log('🔥🔥 onComplete - finish cycle 🔥🔥')
-            if (slotEl.style.border == ''){
-              slotEl.style.border = '2px solid red';
-            } else {
-              slotEl.style.border = '';
-            }
-          }
+          delay: slotIndex
         }
       ));
       timeline.add(
@@ -84,7 +87,12 @@ export default class SlotMachine {
       timeline.add(
         TweenLite.to(slotsContainer, .5 , {
           y: (-randomNum * this.slotOptionHeight) + 'px',
-          ease: 'easeOut'
+          ease: 'easeOut',
+          onComplete: () => {
+            if (parseInt(slotEl.getAttribute('data-slot')) === 2) {
+              this.addSpinListener();
+            }
+          }
         }
       ));
     })

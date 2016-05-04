@@ -21,4 +21,8 @@
       letter-spacing: .1rem;
     }
   }
+  &__action {
+    lost-column: 1;
+    margin-top: $column-gutter;
+  }
 }
