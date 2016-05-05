@@ -1,6 +1,6 @@
 require('es6-shim');
 require('./lib/_nodelist-shim');
-import SlotMachine from './lib/_slot-machine';
+import {App} from './lib/_slot-machine';
 
 let caffeineData = [
   {
@@ -17,4 +17,4 @@ let caffeineData = [
   }
 ]
 
-window.slotMachine = new SlotMachine('.slots', '.slot-machine', caffeineData);
+let app = new App('.slots', '.slot-machine', caffeineData);

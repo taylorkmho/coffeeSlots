@@ -1,13 +1,19 @@
 import { addClass, removeClass, hasClass, randomBetween } from './_helpers';
 
-export default class SlotMachine {
-  constructor(slotsSelector, graphicSelector, data) {
-    this.el             = document.querySelector(slotsSelector);
+export class App {
+  constructor(slotsSelector, graphicSelector, caffeineData) {
+    window.slotMachine = new SlotMachine(slotsSelector, caffeineData);
+    window.slotGraphic = new SlotGraphic(graphicSelector);
+  }
+}
+
+class SlotMachine {
+  constructor(selector, data) {
+    this.el             = document.querySelector(selector);
     this.data           = data;
     this.slots          = Array.from(this.el.querySelectorAll('.slots__slot'));
     this.button         = document.querySelector('[data-action="spin"]');
     this.currentResults = [];
-    this.graphic        = new SlotGraphic(graphicSelector);
 
     this.initialize();
   }
@@ -113,7 +119,7 @@ export default class SlotMachine {
           onComplete: () => {
             if (slotIndex === 2) {
               if (this.currentResults[0] == this.currentResults[1] && this.currentResults[1] == this.currentResults[2]) {
-                this.graphic.win();
+                window.slotGraphic.win();
               } else {
                 this.addSpinListener();
               }
@@ -135,6 +141,7 @@ export default class SlotMachine {
 class SlotGraphic {
   constructor(selector) {
     this.el          = document.querySelector(selector);
+    this.machine     = window.slotMachine;
   }
   win() {
     let shakeMachine    = TweenMax.fromTo(this.el, .0625,
