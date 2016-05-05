@@ -16,11 +16,23 @@
 }
 
 .slot-machine {
+  &__display {
+    rect {
+      @each $type, $color in (coffee, tea, espresso), ($c-coffee, $c-tea, $c-espresso) {
+        .$(type) & { fill: $(color); }
+      }
+    }
+  }
   &__flow {
     rect,
     g,
     > circle {
       opacity: 0;
+    }
+    rect {
+      @each $type, $color in (coffee, tea, espresso), ($c-coffee, $c-tea, $c-espresso) {
+        .$(type) & { fill: color($(color) tint(30%)); }
+      }
     }
   }
 }

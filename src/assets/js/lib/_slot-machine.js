@@ -3,7 +3,7 @@ import { addClass, removeClass, hasClass, randomBetween } from './_helpers';
 export class App {
   constructor(slotsSelector, graphicSelector, caffeineData) {
     window.slotMachine = new SlotMachine(slotsSelector, caffeineData);
-    window.slotGraphic = new SlotGraphic(graphicSelector);
+    window.slotGraphic = new SlotGraphic(graphicSelector, slotsSelector);
   }
 }
 
@@ -11,7 +11,7 @@ class SlotMachine {
   constructor(selector, data) {
     this.el             = document.querySelector(selector);
     this.data           = data;
-    this.slots          = Array.from(this.el.querySelectorAll('.slots__slot'));
+    this.slots          = Array.from(this.el.querySelectorAll(selector + '__slot'));
     this.button         = document.querySelector('[data-action="spin"]');
     this.currentResults = [];
 
@@ -97,8 +97,9 @@ class SlotMachine {
     this.removeSpinListener();
 
     this.slots.forEach((slotEl,slotIndex)=>{
-      let resultNum           = 2;
+      let resultNum           = randomBetween(0, this.data.length-1);
       let slotsContainer      = slotEl.querySelector('.slots__container');
+      let resultType          = slotsContainer.querySelectorAll('.slots__option')[resultNum].getAttribute('data-type');
       let timelineSlot        = new TimelineLite();
 
       let animStart           = TweenLite.to(slotsContainer, .125, {
@@ -119,7 +120,7 @@ class SlotMachine {
           onComplete: () => {
             if (slotIndex === 2) {
               if (this.currentResults[0] == this.currentResults[1] && this.currentResults[1] == this.currentResults[2]) {
-                window.slotGraphic.win();
+                window.slotGraphic.win(resultType);
               } else {
                 this.addSpinListener();
               }
@@ -139,24 +140,56 @@ class SlotMachine {
 }
 
 class SlotGraphic {
-  constructor(selector) {
+  constructor(selector, slotsSelector) {
     this.el          = document.querySelector(selector);
-    this.machine     = window.slotMachine;
+    this.slotsEl     = document.querySelectorAll(slotsSelector + '__slot');
   }
-  win() {
-    let shakeMachine    = TweenMax.fromTo(this.el, .0625,
+  win(resultType) {
+    let animDuration    = 10;
+    addClass(this.el, resultType);
+
+    let shakeMachine    = TweenMax.fromTo(this.el, animDuration/100,
       {
-        x: '-1px'
+        x: '0'
       },
       {
-        x: '1px',
-        repeat: 70
+        x: '2px',
+        repeat: 100 * (7/8),
+        delay: animDuration / 8,
+        clearProps: 'x'
       }
-    )
+    );
+
+    let timelineDisplay = new TimelineLite();
+    let displayEl       = this.el.querySelector('.slot-machine__display rect');
+    let fillDisplay     = TweenMax.fromTo(displayEl, animDuration/8,
+      {
+        opacity: 0
+      },
+      {
+        opacity: 1
+      }
+    );
+    let expelDisplay    = TweenMax.fromTo(displayEl, (animDuration*7)/8,
+      {
+        height: displayEl.getAttribute('height'),
+        y: 0
+      },
+      {
+        height: '0',
+        y: displayEl.getAttribute('height')
+      }
+    );
+
+    timelineDisplay
+      .add(fillDisplay)
+      .add(expelDisplay);
 
     let timelineGraphic = new TimelineLite();
     let flowBaseEl      = this.el.querySelector('.slot-machine__flow rect');
-    let animPourIn      = TweenLite.fromTo(flowBaseEl, .5,
+    let flowBubblesEl   = this.el.querySelectorAll('.slot-machine__flow circle');
+
+    let animPourIn      = TweenLite.fromTo(flowBaseEl, animDuration/8,
       {
         opacity: 0,
         height: 0,
@@ -165,20 +198,12 @@ class SlotGraphic {
       {
         opacity: .5,
         height: flowBaseEl.getAttribute('height'),
-        y: '0%'
-      }
-    );
-    let animPourOut      = TweenLite.to(flowBaseEl, 1.5,
-      {
-        opacity: 0,
-        y: flowBaseEl.getAttribute('height'),
-        height: 0,
-        clearProps: 'opacity, y, height'
+        y: '0%',
+        delay: animDuration/8
       }
     );
 
-    let flowBubblesEl   = this.el.querySelectorAll('.slot-machine__flow circle');
-    let animBubbleIn    = TweenMax.staggerFromTo(flowBubblesEl, 1,
+    let animBubbleIn    = TweenMax.staggerFromTo(flowBubblesEl, animDuration/4,
       {
         opacity: 0,
         y: '0%'
@@ -189,13 +214,24 @@ class SlotGraphic {
       },
       .125
     );
-    let animBubbleOut   = TweenLite.to(flowBubblesEl, 1,
+
+    let animBubbleOut   = TweenLite.to(flowBubblesEl, animDuration/4,
       {
         opacity: 0,
         y: '200%',
-        clearProps: 'opacity, y',
+        clearProps: 'opacity, y'
+      }
+    );
+
+    let animPourOut      = TweenLite.to(flowBaseEl, animDuration/8,
+      {
+        opacity: 0,
+        y: flowBaseEl.getAttribute('height'),
+        height: 0,
+        clearProps: 'opacity, y, height',
         onComplete: () => {
           window.slotMachine.addSpinListener();
+          removeClass(this.el, resultType);
         }
       }
     );
