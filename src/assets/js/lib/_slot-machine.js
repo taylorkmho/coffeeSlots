@@ -5,6 +5,7 @@ export default class SlotMachine {
     this.el             = document.querySelector(selector);
     this.data           = data;
     this.slots          = Array.from(this.el.querySelectorAll('.slots__slot'));
+    this.button         = document.querySelector('[data-action="spin"]');
     this.graphic        = new SlotGraphic('.slot-machine');
     this.currentResults = [];
 
@@ -43,11 +44,11 @@ export default class SlotMachine {
       this.spinSlots();
     }
     this.addSpinListener = () => {
-      this.el.querySelector('[data-action="spin"]').addEventListener('click', this.spinHandler, false);
+      this.button.addEventListener('click', this.spinHandler, false);
       console.log('this.addSpinListener')
     }
     this.removeSpinListener = () => {
-      this.el.querySelector('[data-action="spin"]').removeEventListener('click', this.spinHandler, false);
+      this.button.removeEventListener('click', this.spinHandler, false);
       console.log('this.removeClassSpinListener')
     }
     this.addSpinListener();
@@ -61,7 +62,6 @@ export default class SlotMachine {
         this.randomizeSlots(false);
       }, 500)
     })
-
   }
   randomizeSlots(animate) {
     this.slots.forEach((slotEl,slotIndex)=>{

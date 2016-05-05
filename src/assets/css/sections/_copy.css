@@ -5,7 +5,6 @@
     letter-spacing: .2rem;
     line-height: 1;
     strong {
-      display: block;
       color: $c-primary;
     }
   }
@@ -19,6 +18,9 @@
     padding: 0 $column-gutter;
     &__title {
       font-size: 2rem;
+      strong {
+        display: block;
+      }
     }
     &__description {
       font-size: 1rem;

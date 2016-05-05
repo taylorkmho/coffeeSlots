@@ -1,15 +1,17 @@
 .slots {
   lost-utility: clearfix;
+  &__slot,
+  &__option {
+    height: 30vw;
+  }
   &__slot {
     lost-column: 1/3 3;
     border: 2px solid #ccc;
     border-radius: $column-gutter;
     overflow: hidden;
     background-color: #fff;
-    max-height: 40vw;
   }
   &__option {
-    height: 40vw;
     display: flex;
     text-align: center;
     text-transform: uppercase;
@@ -23,7 +25,7 @@
       letter-spacing: .1rem;
       strong {
         font-family: $header-font-family;
-        font-size: 10vw;
+        font-size: 9vw;
         line-height: 1;
       }
     }
@@ -38,19 +40,24 @@
       }
     }
   }
-  &__action {
-    lost-column: 1;
-    margin-top: $column-gutter;
+}
+
+@media screen and (min-width: 420px) {
+  .slots {
+    &__slot,
+    &__option {
+      height: 40vw;
+    }
   }
 }
 
 @media screen and (min-width: $row-width) {
   .slots {
-    &__slot {
-      max-height: 10rem;
-    }
+    &__slot,
     &__option {
       height: 10rem;
+    }
+    &__option {
       span {
         font-size: 1rem;
         strong {

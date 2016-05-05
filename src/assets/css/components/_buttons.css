@@ -1,19 +1,33 @@
 .btn {
   outline: none;
   &--spin {
+    margin-top: $column-gutter;
+    margin-left: -$column-gutter;
+    width: calc(100% + 2*$column-gutter);
     background: $c-primary;
     color: color($c-primary tint(60%) saturation(50%));
     letter-spacing: .25rem;
     font-size: 1.5rem;
-    border-radius: 8px;
     border: none;
-    padding: calc($column-gutter/4) calc($column-gutter);
+    padding: $column-gutter 0;
     cursor: pointer;
     &:hover {
       background: color($c-primary tint(10%));
     }
     &:active {
       background: color($c-primary shade(10%));
+    }
+  }
+}
+
+@media screen and (min-width: 420px) {
+  .btn {
+    &--spin {
+      padding: calc($column-gutter/4) calc($column-gutter);
+      margin-left: auto;
+      lost-column: 1;
+      width: auto;
+      border-radius: 8px;
     }
   }
 }
