@@ -51,11 +51,9 @@ class SlotMachine {
     }
     this.addSpinListener = () => {
       this.button.addEventListener('click', spinHandler, false);
-      console.log('this.addSpinListener')
     }
     this.removeSpinListener = () => {
       this.button.removeEventListener('click', spinHandler, false);
-      console.log('this.removeClassSpinListener')
     }
     this.addSpinListener();
 
@@ -92,8 +90,6 @@ class SlotMachine {
     })
   }
   spinSlots() {
-    console.log('🎰🎰🎰 slot spin 🎰🎰🎰');
-
     this.removeSpinListener();
 
     this.slots.forEach((slotEl,slotIndex)=>{
