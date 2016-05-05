@@ -3,7 +3,7 @@ This project was produced for [Thumbtack's Espresso Bar Slot Machine](https://ww
 
 
 ## Getting it up and running
-This project utilizes NodeJS to manage its dependencies and scripts. Run `npm install` to bring in its dependencies. Then run `npm start` to get the server running. If a window does not automatically open, head over to [localhost:3000](http://localhost:3000).
+This project utilizes NodeJS and Bower to manage its dependencies and scripts. Run `npm install && bower install` to bring in its dependencies. Then run `npm start` to get the server running. If a window does not automatically open, head over to [localhost:3000](http://localhost:3000).
 
 
 #### Still getting errors?
