@@ -20,9 +20,4 @@ gulp.task('js', function() {
     .pipe(sourcemaps.write('maps'))
     .pipe(gulp.dest(paths.dist.js).on('error', errorHandler))
     .on('error', errorHandler);
-
-  gulp.src(bower())
-    .pipe(filter('*.{js,map}'))
-    .pipe(gulp.dest(paths.dist.js+'/vendor'))
-    .on('error', errorHandler);
 });
