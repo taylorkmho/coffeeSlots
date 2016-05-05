@@ -65,9 +65,9 @@ export default class SlotMachine {
     this.addSpinListener();
   }
   spinSlots() {
-    this.removeSpinListener();
-
     console.log('🎰🎰🎰 slot spin 🎰🎰🎰');
+
+    this.removeSpinListener();
 
     this.slots.forEach((slotEl,slotIndex)=>{
       let resultNum           = randomBetween(0, this.data.length-1);
@@ -126,8 +126,8 @@ class SlotGraphic {
     )
 
     let timelineGraphic = new TimelineLite();
-    let flowBase        = this.el.querySelector('.slot-machine__flow rect');
-    let animPourIn      = TweenLite.fromTo(flowBase, .5,
+    let flowBaseEl      = this.el.querySelector('.slot-machine__flow rect');
+    let animPourIn      = TweenLite.fromTo(flowBaseEl, .5,
       {
         opacity: 0,
         height: 0,
@@ -135,21 +135,21 @@ class SlotGraphic {
       },
       {
         opacity: .5,
-        height: flowBase.getAttribute('height'),
+        height: flowBaseEl.getAttribute('height'),
         y: '0%'
       }
     );
-    let animPourOut      = TweenLite.to(flowBase, 1.5,
+    let animPourOut      = TweenLite.to(flowBaseEl, 1.5,
       {
         opacity: 0,
-        y: flowBase.getAttribute('height'),
+        y: flowBaseEl.getAttribute('height'),
         height: 0,
         clearProps: 'opacity, y, height'
       }
     );
 
-    let flowBubbles     = this.el.querySelectorAll('.slot-machine__flow circle');
-    let animBubbleIn    = TweenMax.staggerFromTo(flowBubbles, 1,
+    let flowBubblesEl   = this.el.querySelectorAll('.slot-machine__flow circle');
+    let animBubbleIn    = TweenMax.staggerFromTo(flowBubblesEl, 1,
       {
         opacity: 0,
         y: '0%'
@@ -160,7 +160,7 @@ class SlotGraphic {
       },
       .125
     );
-    let animBubbleOut   = TweenLite.to(flowBubbles, 1,
+    let animBubbleOut   = TweenLite.to(flowBubblesEl, 1,
       {
         opacity: 0,
         y: '200%',
