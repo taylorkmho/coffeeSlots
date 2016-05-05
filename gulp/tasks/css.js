@@ -10,12 +10,14 @@ var gulp              = require('gulp'),
     postcssNested     = require('postcss-nested'),
     postcssPXtoREM    = require('postcss-pxtorem'),
     postcssColorFunc  = require('postcss-color-function'),
-    postcssSimpleVars = require('postcss-simple-vars');
+    postcssSimpleVars = require('postcss-simple-vars'),
+    postcssEach       = require('postcss-each');
 
 gulp.task('css', function() {
 
   var postCSSProcessors = [
         postcssEasyImport({ glob: true, path: ['./node_modules', './bower_components'] }),
+        postcssEach,
         postcssNested,
         postcssPXtoREM,
         postcssSimpleVars,

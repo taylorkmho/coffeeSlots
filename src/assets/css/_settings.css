@@ -9,6 +9,10 @@ $row-width:              42rem;
 $body-font-family:       "Montserrat", "Helvetica Neue", Helvetica, sans-serif;
 $header-font-family:     "Six Caps", sans-serif;
 
-$c-primary:              #F24C27;
-$c-bg-color:             #fff;
-$c-body-font:            #888;
+$c-primary:              #CC2802;
+$c-bg-color:             #eee;
+$c-body-font:            #999;
+
+$c-coffee:               #F26716;
+$c-tea:                  #F2AF5C;
+$c-espresso:             #590902;

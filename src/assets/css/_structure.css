@@ -16,6 +16,7 @@ body {
 
 body {
   font-family: $body-font-family;
+  background-color: $c-bg-color;
   color: $c-body-font;
 }
 

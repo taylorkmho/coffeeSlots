@@ -2,7 +2,7 @@
   outline: none;
   &--spin {
     background: $c-primary;
-    color: color($c-primary blend(yellow 15%) tint(40%) saturation(100%));
+    color: color($c-primary tint(60%) saturation(50%));
     letter-spacing: .25rem;
     font-size: 1.5rem;
     border-radius: 8px;

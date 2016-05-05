@@ -6,11 +6,12 @@
     border-radius: $column-gutter;
     max-height: 10rem;
     overflow: hidden;
+    background-color: #fff;
   }
   &__option {
     padding: calc($column-gutter*2) 0;
     font-family: $header-font-family;
-    font-size: 4.5rem;
+    font-size: 4.25rem;
     line-height: 1;
     text-align: center;
     text-transform: uppercase;
@@ -19,6 +20,14 @@
       font-family: $body-font-family;
       font-size: 1rem;
       letter-spacing: .1rem;
+    }
+    @each $type, $color in (coffee, tea, espresso), ($c-coffee, $c-tea, $c-espresso) {
+      &[data-type="$(type)"] {
+        color: $(color);
+        span {
+          color: color($(color) tint(50%) saturation(40%));
+        }
+      }
     }
   }
   &__action {
