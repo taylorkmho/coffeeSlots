@@ -34,18 +34,6 @@ export default class SlotMachine {
       */
       let firstEl = slotContainer.querySelector('.slots__option').cloneNode(true);
       slotContainer.appendChild(firstEl);
-      /*
-        set container el to random start position
-      */
-      let initNum           = randomBetween(0, this.data.length-1);
-      this.slotOptionHeight = slotContainer.offsetHeight / slotContainer.childElementCount;
-
-      slotEl.setAttribute('data-current-index', initNum);
-      this.currentResults[slotIndex] = initNum;
-      TweenMax.to(slotContainer, 1, {
-        y: (initNum > 0) ? (-initNum * this.slotOptionHeight) + 'px' : (-this.data.length * this.slotOptionHeight) + 'px',
-        delay: slotIndex * .125
-      })
     });
 
     /*
@@ -63,6 +51,38 @@ export default class SlotMachine {
       console.log('this.removeClassSpinListener')
     }
     this.addSpinListener();
+
+    /*
+      randomize slots on load and resize
+    */
+    this.randomizeSlots(true);
+    window.addEventListener('resize', ()=>{
+      setTimeout(()=>{
+        this.randomizeSlots(false);
+      }, 500)
+    })
+
+  }
+  randomizeSlots(animate) {
+    this.slots.forEach((slotEl,slotIndex)=>{
+      let initNum           = randomBetween(0, this.data.length-1);
+      let slotContainer     = slotEl.querySelector('.slots__container');
+      this.slotOptionHeight = slotContainer.offsetHeight / slotContainer.childElementCount;
+
+      slotEl.setAttribute('data-current-index', initNum);
+      this.currentResults[slotIndex] = initNum;
+      TweenMax.fromTo(slotContainer, 1,
+        {
+          y: 0,
+          opacity: 0
+        },
+        {
+          y: (initNum > 0) ? (-initNum * this.slotOptionHeight) + 'px' : (-this.data.length * this.slotOptionHeight) + 'px',
+          opacity: 1,
+          delay: slotIndex * .125
+        }
+      )
+    })
   }
   spinSlots() {
     console.log('🎰🎰🎰 slot spin 🎰🎰🎰');
