@@ -1,11 +1,27 @@
 .copy {
   &__title {
     margin-top: 0;
+    font-size: 6vw;
     letter-spacing: .2rem;
     line-height: 1;
     strong {
       display: block;
       color: $c-primary;
+    }
+  }
+  &__description {
+    font-size: 4vw;
+  }
+}
+
+@media screen and (min-width: $row-width) {
+  .copy {
+    padding: 0 $column-gutter;
+    &__title {
+      font-size: 2rem;
+    }
+    &__description {
+      font-size: 1rem;
     }
   }
 }

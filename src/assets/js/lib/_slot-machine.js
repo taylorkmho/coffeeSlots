@@ -25,7 +25,7 @@ export default class SlotMachine {
       this.data.forEach((data, index)=>{
         let slotOption = document.createElement('div');
         addClass(slotOption, 'slots__option');
-        slotOption.innerHTML = data.type + ' <span>' + data.components[slotIndex] + '</span>';
+        slotOption.innerHTML = ' <span><strong>' + data.type + '</strong>' + data.components[slotIndex] + '</span>';
         slotOption.setAttribute('data-type', data.type)
         slotContainer.appendChild(slotOption);
       })

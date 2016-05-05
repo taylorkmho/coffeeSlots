@@ -5,14 +5,31 @@ body {
   align-items: center;
   overflow: hidden;
   > section {
+    position: relative;
     lost-center: $row-width;
-    display: flex;
-    align-items: center;
+    padding: 0 $column-gutter;
     > aside {
-      lost-column: 1/3 2 2rem;
+      margin: 0 auto $column-gutter;
+      width: 6rem;
     }
     > main {
-      lost-column: 2/3 2 2rem;
+      position: relative;
+      z-index: 210;
+    }
+  }
+}
+
+@media screen and (min-width: $row-width) {
+  body {
+    > section {
+      display: flex;
+      align-items: center;
+      > aside {
+        lost-column: 1/3 2 2rem;
+      }
+      > main {
+        lost-column: 2/3 2 2rem;
+      }
     }
   }
 }

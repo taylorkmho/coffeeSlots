@@ -2,18 +2,6 @@
   box-sizing: border-box;
 }
 
-html,
-body {
-  font-size: 90%;
-}
-
-@media screen and (min-width: $row-width) {
-  html,
-  body {
-    font-size: 100%;
-  }
-}
-
 body {
   font-family: $body-font-family;
   background-color: $c-bg-color;
