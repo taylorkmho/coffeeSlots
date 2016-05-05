@@ -1,13 +1,13 @@
 import { addClass, removeClass, hasClass, randomBetween } from './_helpers';
 
 export default class SlotMachine {
-  constructor(selector, data) {
-    this.el             = document.querySelector(selector);
+  constructor(slotsSelector, graphicSelector, data) {
+    this.el             = document.querySelector(slotsSelector);
     this.data           = data;
     this.slots          = Array.from(this.el.querySelectorAll('.slots__slot'));
     this.button         = document.querySelector('[data-action="spin"]');
-    this.graphic        = new SlotGraphic('.slot-machine');
     this.currentResults = [];
+    this.graphic        = new SlotGraphic(graphicSelector);
 
     this.initialize();
   }
@@ -40,21 +40,22 @@ export default class SlotMachine {
     /*
       add click listener to spin button
     */
-    this.spinHandler = () => {
+    let spinHandler = () => {
       this.spinSlots();
     }
     this.addSpinListener = () => {
-      this.button.addEventListener('click', this.spinHandler, false);
+      this.button.addEventListener('click', spinHandler, false);
       console.log('this.addSpinListener')
     }
     this.removeSpinListener = () => {
-      this.button.removeEventListener('click', this.spinHandler, false);
+      this.button.removeEventListener('click', spinHandler, false);
       console.log('this.removeClassSpinListener')
     }
     this.addSpinListener();
 
     /*
       randomize slots on load and resize
+      prevents funky layout for mobile slots
     */
     this.randomizeSlots(true);
     window.addEventListener('resize', ()=>{
@@ -90,7 +91,7 @@ export default class SlotMachine {
     this.removeSpinListener();
 
     this.slots.forEach((slotEl,slotIndex)=>{
-      let resultNum           = randomBetween(0, this.data.length-1);
+      let resultNum           = 2;
       let slotsContainer      = slotEl.querySelector('.slots__container');
       let timelineSlot        = new TimelineLite();
 
@@ -111,9 +112,10 @@ export default class SlotMachine {
           ease: 'easeOut',
           onComplete: () => {
             if (slotIndex === 2) {
-              this.addSpinListener();
               if (this.currentResults[0] == this.currentResults[1] && this.currentResults[1] == this.currentResults[2]) {
                 this.graphic.win();
+              } else {
+                this.addSpinListener();
               }
             }
           }
@@ -132,7 +134,7 @@ export default class SlotMachine {
 
 class SlotGraphic {
   constructor(selector) {
-    this.el = document.querySelector(selector);
+    this.el          = document.querySelector(selector);
   }
   win() {
     let shakeMachine    = TweenMax.fromTo(this.el, .0625,
@@ -184,7 +186,10 @@ class SlotGraphic {
       {
         opacity: 0,
         y: '200%',
-        clearProps: 'opacity, y'
+        clearProps: 'opacity, y',
+        onComplete: () => {
+          window.slotMachine.addSpinListener();
+        }
       }
     );
 

@@ -17,4 +17,4 @@ let caffeineData = [
   }
 ]
 
-let slotMachine = new SlotMachine('.slots', caffeineData);
+window.slotMachine = new SlotMachine('.slots', '.slot-machine', caffeineData);
